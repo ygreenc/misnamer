@@ -53,14 +53,14 @@ def find_likely_movie(filename):
     """Find the most likely movie from the filename."""
     name, extension = os.path.splitext(filename)
 
-    # TODO Check if name contains tt + 7 numbers
+    # Check if name contains an imdbId (tt + 7 numbers)
     # example: tt1853728 == Django Unchained
     try:
         return _extract_imdbId(name)
     except ValueError:
         pass
 
-    # TODO Check if name contain a year (4 number). If it does, it's likely
+    # Check if name contain a year (4 number). If it does, it's likely
     # that the movie name is to the left of it
     try:
         return _extract_before_year(name)
