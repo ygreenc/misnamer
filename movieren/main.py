@@ -1,17 +1,12 @@
 #!/usr/bin/env python
 
 import os.path
+import shutil
 import json
 import click
 
 from config import Config
 from movie import find_likely_movie
-
-
-def build_output_filename(config, movie):
-    """Select the output filename.
-    """
-    return config['rename_format'].format(**movie)
 
 
 def movieren(config, in_file):
@@ -26,12 +21,15 @@ def movieren(config, in_file):
     if config.get('move_file_enable', False):
         directory = os.path.expanduser(config['move_file_destination'])
 
-    destination = os.path.join(directory, config['rename_format'] + extension).format(**movie)
+    # Perform replacements on filename
+    new_filename = config['rename_format'] + extension
+    destination = os.path.join(directory, new_filename).format(**movie)
 
     if os.path.exists(destination) and config['overwrite_destination'] is False:
-        raise RuntimeError('File %s already exists' % directory)
+        raise RuntimeError('File %s already exists' % destination)
 
-    print(destination)
+    click.secho('Moving %s -> %s' % (in_file, destination), fg='green')
+    shutil.move(in_file, destination)
 
 
 @click.command()
@@ -55,8 +53,10 @@ def main(format, config, in_file):
             parsed_configuration.update(loaded_configuration)
 
         movieren(parsed_configuration, click.format_filename(in_file))
+    except RuntimeError as e:
+        click.secho(e, fg='red')
     except ValueError as e:
-        print(e)
+        click.secho(e, fg='red')
 
 
 if __name__ == '__main__':
