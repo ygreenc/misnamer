@@ -1,6 +1,8 @@
 import os.path
 import re
 
+from config import Settings
+
 import requests
 
 API_URL = 'http://www.omdbapi.com/?'
@@ -68,3 +70,8 @@ def find_likely_movie(filename):
         pass
 
     raise ValueError('Could not identify the movie %s' % name)
+
+
+def cleanup_filename(filename):
+    print(Settings)
+    return filename

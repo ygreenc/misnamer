@@ -2,30 +2,29 @@
 
 import os.path
 import shutil
-import json
 import click
 
-from config import Config
-from movie import find_likely_movie
+from config import Settings, update_settings
+from movie import find_likely_movie, cleanup_filename
 
 
-def movieren(config, in_file):
+def movieren(in_file):
     """Main movieren function. Process movie files.
     """
     directory, filename = os.path.split(in_file)
     _, extension = os.path.splitext(filename)
 
-    movie = find_likely_movie(filename)
+    movie = find_likely_movie(cleanup_filename(filename))
 
     # Build destination path
-    if config.get('move_file_enable', False):
-        directory = os.path.expanduser(config['move_file_destination'])
+    if Settings.get('move_file_enable', False):
+        directory = os.path.expanduser(Settings['move_file_destination'])
 
     # Perform replacements on filename
-    new_filename = config['rename_format'] + extension
+    new_filename = Settings['rename_format'] + extension
     destination = os.path.join(directory, new_filename).format(**movie)
 
-    if os.path.exists(destination) and config['overwrite_destination'] is False:
+    if os.path.exists(destination) and not Settings['overwrite_destination']:
         raise RuntimeError('File %s already exists' % destination)
 
     click.secho('Moving %s -> %s' % (in_file, destination), fg='green')
@@ -33,30 +32,21 @@ def movieren(config, in_file):
 
 
 @click.command()
-@click.option('--format', help='Ouput format')
-@click.option('--config', help='Use configuration file')
+@click.option('--out_format', help='Ouput format')
+@click.option('--configuration', help='Configuration file location')
 @click.argument('in_file', type=click.Path(exists=True))
-def main(format, config, in_file):
+def main(out_format, configuration, in_file):
     try:
-        # Configuration parsing
-        # Resolution order is:
-        # 1- Specified at runtime (cli parameter)
-        # 2- ~/.movieren.json
-        # 3- Defaults specified in program
-        if config is None:
-            config = "~/.movieren.json"
+        update_settings(configuration)
 
-        parsed_configuration = Config
+        if out_format is not None:
+            Settings['rename_format'] = out_format
 
-        with open(os.path.expanduser(config)) as cnf:
-            loaded_configuration = json.load(cnf)
-            parsed_configuration.update(loaded_configuration)
-
-        movieren(parsed_configuration, click.format_filename(in_file))
+        movieren(click.format_filename(in_file))
     except RuntimeError as e:
-        click.secho(e, fg='red')
+        click.secho(str(e), bg='red')
     except ValueError as e:
-        click.secho(e, fg='red')
+        click.secho(str(e), bg='red')
 
 
 if __name__ == '__main__':

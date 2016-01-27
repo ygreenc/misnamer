@@ -1,28 +1,25 @@
 #!/usr/bin/env python
 
-defaults = {
-    # Rename filename format
-    'rename_format': '{Title}',
+import os.path
+import json
 
-    # Replace file at destination if already exists
-    'overwrite_destination': False,
+from config_defaults import defaults
 
-    # Only looks for files with this extension
-    'valid_extensions': ['avi', 'mkv', 'mp4'],
+Settings = dict(defaults)
 
-    # Replacement charactater for invalid output filename
-    'replace_invalid_characters_with': '_',
 
-    # Move file destination
-    # Relative path is relative to file
-    # Use String formatting
-    'move_file_destination': '.',
+def read_configuration(config_file):
+    """Merge user configuration.
+    """
+    configuration = Settings
 
-    # Move file to directory ?
-    'move_file_enable': False,
+    with open(os.path.expanduser(config_file)) as cnf:
+        loaded_configuration = json.load(cnf)
+        configuration.update(loaded_configuration)
 
-    # Words not to consider when parsing a filename
-    'dirty_words': []
-}
+    return configuration
 
-Config = dict(defaults)
+
+def update_settings(configuration_file='~/.movieren.json'):
+    global Settings
+    Settings.update(read_configuration(configuration_file))
