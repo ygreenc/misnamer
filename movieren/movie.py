@@ -1,7 +1,7 @@
 import os.path
 import re
 
-from config import Settings
+from .config import Settings
 
 import requests
 
@@ -22,7 +22,7 @@ def _extract_imdbId(name):
     response = requests.get(
         API_URL,
         {'i': match.group(1)},
-        timeout=3.0
+        timeout=10.0
     ).json()
 
     if 'Response' not in response or response['Response'] == 'False':
@@ -42,7 +42,7 @@ def _extract_before_year(name):
     response = requests.get(
         API_URL,
         {'t': movieTitle, 'y': match.group(2), 'type': 'movie'},
-        timeout=3.0
+        timeout=10.0
     ).json()
 
     if 'Response' not in response or response['Response'] == 'False':
@@ -73,5 +73,6 @@ def find_likely_movie(filename):
 
 
 def cleanup_filename(filename):
-    print(Settings)
+    for dirty_word in Settings['dirty_words']:
+        filename = filename.replace(dirty_word, '')
     return filename

@@ -3,7 +3,7 @@
 import os.path
 import json
 
-from config_defaults import defaults
+from .config_defaults import defaults
 
 Settings = dict(defaults)
 
@@ -23,3 +23,8 @@ def read_configuration(config_file):
 def update_settings(configuration_file='~/.movieren.json'):
     global Settings
     Settings.update(read_configuration(configuration_file))
+
+
+def set_option(key, value):
+    global Settings
+    Settings[key] = value

@@ -4,8 +4,8 @@ import os.path
 import shutil
 import click
 
-from config import Settings, update_settings
-from movie import find_likely_movie, cleanup_filename
+from .movie import find_likely_movie, cleanup_filename
+from .config import Settings, update_settings
 
 
 def movieren(in_file):
