@@ -8,8 +8,8 @@ from .movie import find_likely_movie, cleanup_filename
 from .config import Settings, update_settings
 
 
-def movieren(in_file):
-    """Main movieren function. Process movie files.
+def misnamer(in_file):
+    """Main misnamer function. Process movie files.
     """
     directory, filename = os.path.split(in_file)
     _, extension = os.path.splitext(filename)
@@ -42,7 +42,7 @@ def main(out_format, configuration, in_file):
         if out_format is not None:
             Settings['rename_format'] = out_format
 
-        movieren(click.format_filename(in_file))
+        misnamer(click.format_filename(in_file))
     except RuntimeError as e:
         click.secho(str(e), bg='red')
     except ValueError as e:

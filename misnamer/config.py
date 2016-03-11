@@ -23,7 +23,7 @@ def read_configuration(config_file):
 def update_settings(configuration_file=None):
     global Settings
     if not configuration_file:
-        configuration_file = '~/.movieren.json'
+        configuration_file = '~/.misnamer.json'
     Settings.update(read_configuration(configuration_file))
 
 

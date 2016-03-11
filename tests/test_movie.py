@@ -2,8 +2,8 @@
 
 import unittest
 
-from movieren.movie import find_likely_movie, cleanup_filename
-from movieren.config import set_option
+from misnamer.movie import find_likely_movie, cleanup_filename
+from misnamer.config import set_option
 
 EXAMPLES = [
     ('Inglourious.Basterds.2009.1080p.BluRay.x264.AC3-ETRG.mp4', 'tt0361748'),

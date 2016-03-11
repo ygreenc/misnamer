@@ -1,18 +1,16 @@
-import re
-import ast
 from setuptools import setup
 
 setup(
-    name='movieren',
+    name='misnamer',
     author='ygreenc',
     author_email='',
     version='0.1',
     url='',
-    packages=['movieren'],
+    packages=['misnamer'],
     description='Rename movie file',
-    entry_points = {
+    entry_points={
         'console_scripts': [
-            'movieren = movieren.main:main'
+            'misnamer = misnamer.main:main'
         ]
     }
 )
