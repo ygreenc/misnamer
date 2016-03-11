@@ -9,5 +9,10 @@ setup(
     version='0.1',
     url='',
     packages=['movieren'],
-    description='Rename movie file'
+    description='Rename movie file',
+    entry_points = {
+        'console_scripts': [
+            'movieren = movieren.main:main'
+        ]
+    }
 )
