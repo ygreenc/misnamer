@@ -20,8 +20,10 @@ def read_configuration(config_file):
     return configuration
 
 
-def update_settings(configuration_file='~/.movieren.json'):
+def update_settings(configuration_file=None):
     global Settings
+    if not configuration_file:
+        configuration_file = '~/.movieren.json'
     Settings.update(read_configuration(configuration_file))
 
 
