@@ -53,7 +53,7 @@ def _extract_before_year(name):
 
 def find_likely_movie(filename):
     """Find the most likely movie from the filename."""
-    name, extension = os.path.splitext(filename)
+    name, _ = os.path.splitext(filename)
 
     # Check if name contains an imdbId (tt + 7 numbers)
     # example: tt1853728 == Django Unchained
