@@ -8,7 +8,9 @@ from misnamer.config import set_option
 EXAMPLES = [
     ('Inglourious.Basterds.2009.1080p.BluRay.x264.AC3-ETRG.mp4', 'tt0361748'),
     ('Fury (2014) BDRip 720p HEVC ITA ENG AC3 ITA ENG Sub Pirate.mkv', 'tt2713180'),
-    ('django.tt1853728.mkv', 'tt1853728')
+    ('django.tt1853728.mkv', 'tt1853728'),
+    ('finding.nemo.2003.mkv', 'tt0266543'),
+    ('finding.nemo.2008.avi', 'tt0266543')
 ]
 
 
