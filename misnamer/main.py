@@ -47,7 +47,3 @@ def main(out_format, configuration, in_file):
         click.secho(str(e), bg='red')
     except ValueError as e:
         click.secho(str(e), bg='red')
-
-
-if __name__ == '__main__':
-    main()
