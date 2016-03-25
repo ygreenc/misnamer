@@ -41,7 +41,7 @@ def _extract_before_year(name):
 
     response = requests.get(
         API_URL,
-        {'t': movieTitle, 'y': match.group(2), 'type': 'movie'},
+        {'t': movieTitle, 'type': 'movie'},
         timeout=10.0
     ).json()
 
